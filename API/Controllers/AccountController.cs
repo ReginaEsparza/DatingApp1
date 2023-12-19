@@ -40,13 +40,15 @@ namespace API.Controllers
             return new UserDTO
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
             };
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDto loginDto){
-            var user = await _context.Users.SingleOrDefaultAsync(
+            var user = await _context.Users
+            .Include(x => x.Photos)
+            .SingleOrDefaultAsync(
                 x => x.UserName == loginDto.UserName);
 
             if(user == null) return Unauthorized("invalid username");
@@ -59,11 +61,12 @@ namespace API.Controllers
 
                 if (computeHash[i] != user.PasswordHash[i]) return Unauthorized("invalid password");
             }
-
+                
            return new UserDTO
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
         private async Task<bool> UserExists(string username){
