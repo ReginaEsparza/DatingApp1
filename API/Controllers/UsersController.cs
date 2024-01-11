@@ -35,9 +35,9 @@ public class UsersController : BaseApiController
     [HttpGet("{username}")] 
     public async Task<ActionResult<MemberDTO>> GetUser(string username)
     {
-        return await _userRepository.GetMemberAsync(username);
-        
+        return await _userRepository.GetMemberAsync(username);        
     }
+    
     [HttpPut] 
     public async Task<ActionResult> UpdateUser(MemberUpdateDTO memberUpdateDTO)
     {
@@ -106,7 +106,7 @@ public class UsersController : BaseApiController
 
     }
 
-    [HttpDelete("delete-photo/photoId")]
+    [HttpDelete("delete-photo/{photoId}")]
     public async Task<ActionResult> DeletePhoto(int photoId)
     {
         var user = await _userRepository.GetUserByUserNameAsync(User.GetUsername());
