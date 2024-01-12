@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
@@ -21,7 +21,8 @@ export class PhotoEditorComponent implements OnInit {
   user: User | undefined;
 
   constructor(private accountService: AccountService,
-              private membersService: MembersService ){
+              private membersService: MembersService,
+              private cd: ChangeDetectorRef){
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) this.user = user
@@ -81,7 +82,12 @@ export class PhotoEditorComponent implements OnInit {
     this.uploader.onSuccessItem = (item, response, status, header) => {
       if (response) {
         const photo = JSON.parse(response);
-        this.member?.photoUrl.push(photo);
+        this.member?.photos.push(photo);
+        if(photo.isMain && this.user && this.member){
+          this.user.photoUrl = photo.url
+          this.member.photoUrl = photo.url
+          this.accountService.setCurrentUser(this.user);
+        }
       }
     }
   }
