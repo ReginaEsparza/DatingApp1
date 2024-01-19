@@ -4,7 +4,7 @@ namespace API.Entities
     {
         public AppUser SourceUser {get; set;}
         public int SourceUserId {get; set;}
-        public AppUser TargerUser { get; set; }
-        public int TargerUserId { get; set; }
+        public AppUser TargetUser { get; set; }
+        public int TargetUserId { get; set; }
     }
 }
