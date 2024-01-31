@@ -50,7 +50,6 @@ namespace API.Controllers
         }
 
         [HttpGet]
-
         public async Task<ActionResult<PagedList<MessageDTO>>> GetMessagesForUser([FromQuery]MessagesParams messagesParams)
         {
             messagesParams.Username = User.GetUsername();
@@ -60,6 +59,15 @@ namespace API.Controllers
             Response.AddPaginatonHeader(new PaginationHeader(messages.CurrentPage, messages.PageSize, messages.TotalCount, messages.TotalPages));
 
             return messages;
+        }
+
+        [HttpGet("thread/{username}")]
+
+        public async Task<ActionResult<IEnumerable<MessageDTO>>> GetMessageThread(string username) 
+        {
+            var currentUserName = User.GetUsername();
+
+            return Ok(await _messageRepository.GetMessageThread(currentUserName, username));
         }
     }
 }
