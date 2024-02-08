@@ -16,7 +16,8 @@ export class MemberCardComponent implements OnInit{
   ngOnInit(): void {  
   }
 
-  addLike(member: Member){
+  addLike(member?: Member){
+    if(member)
     this.memberService.addLike(member.userName).subscribe({
       next: () => this.toastr.success('You have liked ' + member.knownAs)   
     })
