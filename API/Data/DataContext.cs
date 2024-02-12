@@ -44,17 +44,15 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int,
             .WithMany(l => l.LikedByUsers)
             .HasForeignKey(s => s.TargetUserId)
             .OnDelete(DeleteBehavior.Cascade);
-        
-        modelBuilder.Entity<Message>()
-            .HasOne(s => s.Sender)
-            .WithMany(m => m.MessagesSent)
-            .HasForeignKey(s => s.SenderId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Message>()
-            .HasOne(r => r.Recipient)
+            .HasOne(u => u.Recipient)
             .WithMany(m => m.MessagesReceived)
-            .HasForeignKey(r => r.RecipientId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<Message>()
+            .HasOne(u => u.Sender)
+            .WithMany(m => m.MessagesSent)
             .OnDelete(DeleteBehavior.Restrict);
     }   
 }

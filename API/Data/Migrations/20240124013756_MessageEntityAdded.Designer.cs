@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240124014512_MessageEntityAdded")]
+    [Migration("20240124013756_MessageEntityAdded")]
     partial class MessageEntityAdded
     {
         /// <inheritdoc />
@@ -157,13 +157,13 @@ namespace API.Data.Migrations
                     b.HasOne("API.Entities.AppUser", "Recipient")
                         .WithMany("MessagesReceived")
                         .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("API.Entities.AppUser", "Sender")
                         .WithMany("MessagesSent")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Recipient");
