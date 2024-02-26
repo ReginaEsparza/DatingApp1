@@ -1,5 +1,6 @@
 using API.Data;
 using API.DTOs;
+using API.Entities;
 using API.Helpers;
 
 namespace API.Interfaces
@@ -12,6 +13,10 @@ namespace API.Interfaces
         Task<PagedList<MessageDTO>> GetMessageForUser(MessagesParams messagesParams);
         Task<IEnumerable<MessageDTO>> GetMessageThread(string currentUserName, string recipientUserName);
         Task<bool> SaveAllAsync();
+        void AddGroup(Group group);
+        void RemoveConnection(Connection connection);
+        Task<Connection> GetConnection(string connectionId);
+        Task<Group> GetMessageGroup(string groupname);
     }
 
 }
