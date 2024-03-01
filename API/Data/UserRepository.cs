@@ -22,6 +22,11 @@ namespace API.Data
             _context = context;
             _mapper = mapper;
         }
+
+        public UserRepository()
+        {
+        }
+
         public async Task<AppUser> GetUserByUserNameAsync(string username)
         {
             return await _context.Users
@@ -76,6 +81,13 @@ namespace API.Data
         public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;
+        }
+
+        public async Task<string> GetUserGender(string username)
+        {
+            return await _context.Users.Where(x => x.UserName == username)
+                                        .Select(x => x.Gender)
+                                        .FirstOrDefaultAsync();
         }
     }
 }
